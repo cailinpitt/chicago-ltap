@@ -6,9 +6,7 @@ const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
 const W = 1200;
 const H = 630;
 
-// The three stations shown lit up, as if mid-round — spread across the system
-// so the map reads as citywide, not one corner.
-const HIT = new Set(['Midway', 'Cottage Grove', 'Howard']);
+const HIT = new Set(['Ridgeland', '18th', 'Howard', 'Francisco', '69th']);
 
 export async function renderOgCard() {
   const c = document.createElement('canvas');
