@@ -8,7 +8,7 @@ const H = 630;
 
 // The three stations shown lit up, as if mid-round — spread across the system
 // so the map reads as citywide, not one corner.
-const HIT = new Set(['Midway', 'Cottage Grove', 'Linden']);
+const HIT = new Set(['Midway', 'Cottage Grove', 'Howard']);
 
 export async function renderOgCard() {
   const c = document.createElement('canvas');
