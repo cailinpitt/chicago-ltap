@@ -301,28 +301,6 @@ async function main() {
       for (const id of c.best) canonicalById.get(id)?.lines.add(meta.name);
     }
   }
-  // Purple Line only ever reaches the Loop as Express, skipping the local stops on the
-  // Howard-Belmont trunk it shares with Red Line. Graft Red's real local sequence for
-  // that shared segment on, so Purple Line rounds run Linden-to-Loop stopping everywhere.
-  const purpleLinden = patterns.find((p) => p.line === 'Purple Line' && p.headsign === 'Linden');
-  const redLocal = patterns.find((p) => p.line === 'Red Line' && p.headsign === '95th/Dan Ryan');
-  if (purpleLinden && redLocal) {
-    const nameOf = (id) => canonicalById.get(id)?.name;
-    const pIds = purpleLinden.stationIds;
-    const bIdx = pIds.findIndex((id) => nameOf(id) === 'Belmont (Red/Brown/Purple)');
-    const hIdx = pIds.findIndex((id) => nameOf(id) === 'Howard');
-    const rIds = redLocal.stationIds;
-    const rbIdx = rIds.findIndex((id) => nameOf(id) === 'Belmont (Red/Brown/Purple)');
-    const rhIdx = rIds.findIndex((id) => nameOf(id) === 'Howard');
-    if (bIdx >= 0 && hIdx >= 0 && rbIdx >= 0 && rhIdx >= 0) {
-      let redSegment = rIds.slice(Math.min(rbIdx, rhIdx), Math.max(rbIdx, rhIdx) + 1);
-      if (nameOf(redSegment[0]) !== nameOf(pIds[bIdx])) redSegment = [...redSegment].reverse();
-      const interior = redSegment.slice(1, -1);
-      purpleLinden.stationIds = [...pIds.slice(0, bIdx + 1), ...interior, ...pIds.slice(hIdx)];
-      for (const id of interior) canonicalById.get(id)?.lines.add('Purple Line');
-      console.log(`\nGrafted ${interior.length} local Howard-Belmont stops onto Purple Line (${pIds.length} → ${purpleLinden.stationIds.length} stops)`);
-    }
-  }
 
   // A pattern truncated at a headsign flip (e.g. Brown's "Loop" stops 3 stations short
   // of the real loop) is a strict station subset of its line's fullest pattern — replace
