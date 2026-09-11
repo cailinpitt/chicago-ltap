@@ -23,3 +23,12 @@ npm run build:data
 
 `scripts/build-l-lines.mjs` caches the GTFS zip in `scripts/.cache/` (gitignored).
 Delete that folder to pull a fresh feed.
+
+## Social card
+
+`public/og.jpg` is generated from `scripts/og-card.mjs`.
+
+```bash
+npm i -D playwright-core && npx playwright install chromium
+npm run build:og
+```
